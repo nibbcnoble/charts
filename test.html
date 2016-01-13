@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>create charts</title>
+<script type="text/javascript" src="createcharts.js"></script>
+</head>
+
+<body>
+
+<canvas id="piechart" width="900" height="400">
+</canvas>
+<script>
+
+/*
+each object in the dataset array must have a value,  
+a label and a color is optional.  If no color is given, 
+a random color is assigned.
+example
+{ value:(float or integer here), label: (optional string label), color: ( hexcolor without # example "FF00FF" ) }
+*/
+var dataset = new compareObj([
+	{ value:581.0, label:"United States", color:"FF4400" },
+	{ value:129.4, label:"China" },
+	{ value:80.8, label:"Saudi Arabia" },
+	{ value:70.0, label:"Russia" },
+	{ value:61.8, label:"United Kingdom" },
+	], "piechart", "billions" ,44);
+
+dataset.bar();
+</script>
+</body>
+</html>
