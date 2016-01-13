@@ -36,7 +36,11 @@ function compareObj(dataset, canvasID, valueformat, labelSize) {
 		this.resetChart();
 	},
 	this.updateRecordByLabel = function(label,nval) {
-		
+		for (var x=0;x<this.data.length;x++) {
+			if (label==this.data[x].label) {
+				this.data[x].value=nval;	
+			}
+		}
 	},
 	this.degreesToRadians = function(degrees) {
     	return (degrees * Math.PI)/180;
@@ -49,10 +53,9 @@ function compareObj(dataset, canvasID, valueformat, labelSize) {
 		sum = sum;
 		return sum;
 	},
-	this.sumTotal = ( this.sumTo(this.data,this.data.length )),
+	this.sumTotal = function() { return this.sumTo(this.data,this.data.length )},
 	this.resetChart = function() {
 		this.drawContext.clearRect(0, 0, this.drawCanvas.width, this.drawCanvas.height);
-		this.sumTotal = this.sumTo(this.data,this.data.length );
 		switch (this.currentType) {
 			case "pie": this.pie(); break;
 			case "bar": this.bar(); break;
@@ -110,8 +113,8 @@ function compareObj(dataset, canvasID, valueformat, labelSize) {
 			var centerX = Math.floor(pieboxwidth / 2);
 			var centerY = Math.floor(this.drawCanvas.height / 2);
 			radius = Math.floor(pieboxwidth / 2);
-			var startingAngle = this.degreesToRadians((this.sumTo(this.data, i)/this.sumTotal)*360);
-			var arcSize = this.degreesToRadians(this.data[i].value/this.sumTotal*360);
+			var startingAngle = this.degreesToRadians((this.sumTo(this.data, i)/this.sumTotal())*360);
+			var arcSize = this.degreesToRadians(this.data[i].value/this.sumTotal()*360);
 			var endingAngle = startingAngle + arcSize;
 			this.drawContext.beginPath();
 			this.drawContext.moveTo(centerX, centerY);
@@ -126,7 +129,7 @@ function compareObj(dataset, canvasID, valueformat, labelSize) {
 			
 			// draw the data value label
 			var drawLabel = "";
-			var pctLabel = "( "+parseInt(100*(this.data[i].value/this.sumTotal))+"% )";
+			var pctLabel = "( "+parseInt(100*(this.data[i].value/this.sumTotal()))+"% )";
 			if ((""+this.data[i].value).split(".").length==1) { drawLabel = this.data[i].value+ ".0 "+pctLabel; } else { drawLabel = this.data[i].value+" "+pctLabel; }	
 			this.drawContext.fillStyle = draw_color;
             this.drawContext.font = labelSize+'px Calibri';
