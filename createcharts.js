@@ -95,6 +95,20 @@ function compareObj(dataset, canvasID, valueformat, labelSize) {
 			this.drawContext.fillStyle = "#000000";
 			this.drawContext.fillText(valueFormatLabel,pieboxwidth+20+labelSize,labelSize);
 		} 
+		// draw the piechart arc
+		var centerX = Math.floor(15+(pieboxwidth / 2));
+		var centerY = Math.floor(15+(this.drawCanvas.height / 2));
+		radius = Math.floor((pieboxwidth / 2)-30);
+			
+		// draw the shadown
+		for (var c=0;c<15;c++) {
+			this.drawContext.beginPath();
+			this.drawContext.moveTo(centerX, centerY);
+			this.drawContext.arc(centerX-c, centerY+c, radius, 0, this.degreesToRadians(360), false);
+			this.drawContext.closePath();
+			this.drawContext.fillStyle = "#AAAAAA";
+			this.drawContext.fill();
+		}	
         
 		// draw each element 
 		for (var i = 0; i < this.data.length; i++) {
@@ -109,10 +123,8 @@ function compareObj(dataset, canvasID, valueformat, labelSize) {
 			}
 			var draw_color='#'+add_color;
 			
-			// draw the piechart arc
-			var centerX = Math.floor(pieboxwidth / 2);
-			var centerY = Math.floor(this.drawCanvas.height / 2);
-			radius = Math.floor(pieboxwidth / 2);
+					
+			
 			var startingAngle = this.degreesToRadians((this.sumTo(this.data, i)/this.sumTotal())*360);
 			var arcSize = this.degreesToRadians(this.data[i].value/this.sumTotal()*360);
 			var endingAngle = startingAngle + arcSize;
